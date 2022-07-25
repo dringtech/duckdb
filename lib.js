@@ -372,7 +372,7 @@ const _tm = {
       if (name === undefined) {
         const s = duck.duckffi_enum_string(ltype, offset);
         name = names[offset] = getCString(s);
-        duck.duckffi_dfree(name.ptr);
+        duck.duckffi_dfree(s);
       }
 
       return name;
@@ -471,7 +471,7 @@ const _tms = {
       if (name === undefined) {
         const s = duck.duckffi_enum_string(ltype, offset);
         name = names[offset] = getCString(s);
-        duck.duckffi_dfree(name.ptr);
+        duck.duckffi_dfree(s);
       }
 
       return name;

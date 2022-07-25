@@ -55,9 +55,7 @@ benchmark      time (avg)             (min … max)
 duckdb       8.69 ms/iter     (6.26 ms … 11.4 ms)
 ```
 
-<br />
-
-## Examples
+## examples
 
 ```typescript
 import { open } from "https://deno.land/x/duckdb/mod.ts";

@@ -1,4 +1,4 @@
-import * as lib from "./lib.mjs";
+import * as lib from "./lib.js";
 
 export function open(path: string) {
   return new Database(lib.open(path));
