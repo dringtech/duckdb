@@ -1,19 +1,19 @@
-import { run, bench } from 'https://esm.sh/mitata';
-import { DB } from 'https://deno.land/x/sqlite/mod.ts';
+import { open } from "../mod.ts";
+import { bench, run } from "https://esm.sh/mitata";
 
-const db = new DB('/tmp/test-lite.db');
+const db = open("/tmp/test.db");
+const connection = db.connect();
 
-const p = db.prepareQuery(`
-WITH RECURSIVE c(x) AS (
-  VALUES(1)
-  UNION ALL
-  SELECT x+1 FROM c WHERE x<100000
-)
-SELECT x, x as a FROM c;
-`);
+const q = "select i, i as a from generate_series(1, 100000) s(i)";
 
-bench('x/sqlite', () => {
-  p.all();
+const p = connection.prepare(q);
+console.log("benchmarking query: " + q);
+
+bench("duckdb", () => {
+  p.query();
 });
 
-run({ percentiles: false });
+await run({ percentiles: false });
+
+connection.close();
+db.close();
