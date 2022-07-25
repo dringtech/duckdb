@@ -28,14 +28,14 @@ jobs:
 
       - name: build (macOS)
         shell: bash
-        if: matrix.os == "macos-latest"
+        if: matrix.os == 'macos-latest'
         run: |
           brew install duckdb
           ./build.sh
       
       - name: build (linux)
         shell: bash
-        if: matrix.os == "ubuntu-latest"
+        if: matrix.os == 'ubuntu-latest'
         run: |
           apt install duckdb
           clang src/sql.c \
