@@ -43,10 +43,9 @@ jobs:
           unzip libduckdb-linux-amd64.zip
           clang src/sql.c \
             -O3 -flto \
-            -dynamiclib \
+            -shared \
             -mtune=native \
             -o bin/libduckdb.so \
-            -undefined dynamic_lookup \
             -lduckdb -I./ -L./
 
       - name: Release
