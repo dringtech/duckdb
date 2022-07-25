@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: canary
+
+      - name: typecheck & formatting
+        shell: bash
+        run: |
+          set -xeuo pipefail
+          deno cache --unstable mod.ts
+          deno fmt --check
+
+      - name: build (macOS)
+        shell: bash
+        if: matrix.os == "macos-latest"
+        run: |
+          brew install duckdb
+          ./build.sh
+      
+      - name: build (linux)
+        shell: bash
+        if: matrix.os == "ubuntu-latest"
+        run: |
+          apt install duckdb
+          clang src/sql.c \
+            -O3 -flto \
+            -dynamiclib \
+            -mtune=native \
+            -o bin/libduckdb.so \
+            -undefined dynamic_lookup
+
+      - name: Release
+        uses: softprops/action-gh-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "release draft"
+          draft: true
+          files: |
+            bin/libduckdb.dylib
+            bin/libduckdb.so
