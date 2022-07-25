@@ -30,6 +30,7 @@ jobs:
         shell: bash
         if: matrix.os == 'macos-latest'
         run: |
+          mkdir bin
           brew install duckdb
           ./build.sh
       
@@ -37,6 +38,7 @@ jobs:
         shell: bash
         if: matrix.os == 'ubuntu-latest'
         run: |
+          mkdir bin
           sudo apt install duckdb
           clang src/sql.c \
             -O3 -flto \
