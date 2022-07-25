@@ -39,13 +39,15 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           mkdir bin
-          sudo apt install duckdb
+          wget https://github.com/duckdb/duckdb/releases/download/v0.4.0/libduckdb-linux-amd64.zip
+          unzip libduckdb-linux-amd64.zip -o duckdb
           clang src/sql.c \
             -O3 -flto \
             -dynamiclib \
             -mtune=native \
             -o bin/libduckdb.so \
-            -undefined dynamic_lookup
+            -undefined dynamic_lookup \
+            -lduckdb -Lduckdb/ -Iduckdb/
 
       - name: Release
         uses: softprops/action-gh-release@master
