@@ -92,7 +92,7 @@ that has been reused in this module.
 
 ## License
 
-Modifications are licensened under MIT © [Divy](https://github.com/littledivy)
+Modifications are licensed under MIT © [Divy](https://github.com/littledivy)
 
 Original (bun version):
 
