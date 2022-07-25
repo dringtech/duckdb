@@ -40,14 +40,14 @@ jobs:
         run: |
           mkdir bin
           wget https://github.com/duckdb/duckdb/releases/download/v0.4.0/libduckdb-linux-amd64.zip
-          unzip libduckdb-linux-amd64.zip -o duckdb
+          unzip libduckdb-linux-amd64.zip
           clang src/sql.c \
             -O3 -flto \
             -dynamiclib \
             -mtune=native \
             -o bin/libduckdb.so \
             -undefined dynamic_lookup \
-            -lduckdb -Lduckdb/ -Iduckdb/
+            -lduckdb -Ilibduckdb-linux-amd64/ -Ilibduckdb-linux-amd64/
 
       - name: Release
         uses: softprops/action-gh-release@master
