@@ -90,7 +90,7 @@ runtime: deno 1.24.0 (aarch64-apple-darwin)
 
 benchmark         time (avg)             (min … max)
 ----------------------------------------------------
-• query
+query
 ----------------------------------------------------
 jit query()     4.79 ms/iter    (4.31 ms … 12.06 ms)
 query()         8.26 ms/iter    (7.54 ms … 16.44 ms)
@@ -99,7 +99,7 @@ summary for query
   jit query()
    1.72x faster than query()
 
-• stream
+stream
 ----------------------------------------------------
 jit stream()    9.96 ms/iter    (9.84 ms … 10.18 ms)
 stream()       10.97 ms/iter   (10.82 ms … 11.35 ms)
@@ -118,7 +118,7 @@ runtime: bun 0.1.4 (arm64-darwin)
 
 benchmark         time (avg)             (min … max)
 ----------------------------------------------------
-• query
+query
 ----------------------------------------------------
 jit query()     8.61 ms/iter    (7.54 ms … 10.43 ms)
 query()         18.5 ms/iter   (17.16 ms … 20.34 ms)
@@ -127,7 +127,7 @@ summary for query
   jit query()
    2.15x faster than query()
 
-• stream
+stream
 ----------------------------------------------------
 jit stream()   16.36 ms/iter   (15.55 ms … 17.79 ms)
 stream()       21.44 ms/iter   (21.02 ms … 23.18 ms)
