@@ -1,4 +1,4 @@
-const { dlopen } = Deno;
+import { prepare as plugPrepare } from "https://deno.land/x/plug@0.5.2/plug.ts";
 
 function ptr(v) {
   return Deno.UnsafePointer.of(v);
@@ -12,6 +12,7 @@ function getCString(v) {
   return view.getCString();
 }
 
+const name = "duckdb";
 const utf8e = new TextEncoder();
 const GeneratorFunction = (function* () {}).constructor;
 
@@ -24,7 +25,26 @@ const path = {
   },
 }[Deno.build.os]().pathname;
 
-const duck = dlopen(path, {
+const devMode = Deno.env.get("DENO_DUCKDB_DEV");
+let options = { name: "duckdb" };
+if (devMode) {
+  options.url = path;
+} else {
+  options.urls = {
+    darwin: {
+      aarch64:
+        `https://github.com/littledivy/duckdb/releases/download/0.1.0/libduckdb_aarch64.dylib`,
+      x86_64:
+        `https://github.com/littledivy/duckdb/releases/download/0.1.0/libduckdb.dylib`,
+    },
+    windows:
+      `https://github.com/littledivy/duckdb/releases/download/0.1.0/duckdb.dll`,
+    linux:
+      `https://github.com/littledivy/duckdb/releases/download/0.1.0/libduckdb.so`,
+  };
+}
+
+const { symbols: duck } = await plugPrepare(options, {
   duckffi_free: { parameters: ["pointer"], result: "void" },
   duckffi_dfree: { parameters: ["pointer"], result: "void" },
   duckffi_close: { parameters: ["pointer"], result: "void" },
@@ -204,7 +224,7 @@ const duck = dlopen(path, {
     parameters: ["pointer", "u64", "u32"],
     result: "u64",
   },
-}).symbols;
+});
 
 for (const k in duck) duck[k] = duck[k].native || duck[k];
 
