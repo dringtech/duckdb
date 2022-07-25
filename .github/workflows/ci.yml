@@ -47,7 +47,7 @@ jobs:
             -mtune=native \
             -o bin/libduckdb.so \
             -undefined dynamic_lookup \
-            -lduckdb
+            -lduckdb -I./ -L./
 
       - name: Release
         uses: softprops/action-gh-release@master
