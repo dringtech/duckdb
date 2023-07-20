@@ -24,7 +24,12 @@ Deno.test("BigInt issue in prepare statement", () => {
   assertObjectMatch(
     prepared.query(1337, "foo")[0],
     { number: 1337, text: "foo" }
-  )
+  );
+  
+  assertObjectMatch(
+    prepared.query(null, "bar")[0],
+    { number: 0, text: "bar" }
+  );
 
   connection.close();
   db.close();
