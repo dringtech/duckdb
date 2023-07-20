@@ -1148,5 +1148,7 @@ export function prepare(c, query) {
   `,
   ).bind({ p, _tm, ctx, _tms, duck, utf8e, ltype_gc, result_gc });
 
+  ctx.c = null;
+
   return ctx;
 }
