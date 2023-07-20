@@ -4,7 +4,7 @@ function ptr(v) {
   return Deno.UnsafePointer.of(v);
 }
 function toArrayBuffer(v, start, offset) {
-  const view = new Deno.UnsafePointerView(BigInt(v));
+  const view = new Deno.UnsafePointerView(v);
   return view.getArrayBuffer(start, offset);
 }
 function getCString(v) {
@@ -855,7 +855,7 @@ export function prepare(c, query) {
         ctx.query = new Function(${names.map((n) => `'${n}', `).join("")} \`
           function ptr(v) { return Deno.UnsafePointer.of(v) };
           function toArrayBuffer(v, start, offset) { 
-            const view = new Deno.UnsafePointerView(BigInt(v));
+            const view = new Deno.UnsafePointerView(v);
           }
           const { p, _tm, duck, utf8e, bitmap_get } = this;
 
