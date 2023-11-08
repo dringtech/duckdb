@@ -99,5 +99,14 @@ describe('Numeric Types', () => {
       const test = () => runSQL(`SELECT 100000000000000::INTEGER AS INTEGER;`);
       assertThrows(test, Error, 'Conversion Error');
     })
+
+    it('should support BIGINT', () => {
+      const res = runSQL(`SELECT 100000000000000::BIGINT AS BIGINT;`);
+      assertEquals(res[0].BIGINT, 100000000000000n);
+    })
+    it('should overflow BIGINT', () => {
+      const test = () => runSQL(`SELECT 10000000000000000000::BIGINT AS BIGINT;`);
+      assertThrows(test, Error, 'Conversion Error');
+    })
   })
 })

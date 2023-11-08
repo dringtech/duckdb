@@ -104,7 +104,7 @@ const { symbols: duck } = await dlopen(options, {
   duckffi_value_i32: { parameters: ["pointer", "u32", "u32"], result: "i32" },
   duckffi_value_f32: { parameters: ["pointer", "u32", "u32"], result: "f32" },
   duckffi_value_u64: { parameters: ["pointer", "u32", "u32"], result: "u64" },
-  duckffi_value_i64: { parameters: ["pointer", "u32", "u32"], result: "i32" },
+  duckffi_value_i64: { parameters: ["pointer", "u32", "u32"], result: "i64" },
   duckffi_value_f64: { parameters: ["pointer", "u32", "u32"], result: "f64" },
   duckffi_value_time: { parameters: ["pointer", "u32", "u32"], result: "u32" },
   duckffi_value_date: { parameters: ["pointer", "u32", "u32"], result: "u32" },
