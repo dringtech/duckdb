@@ -1,6 +1,6 @@
 import * as lib from "./lib.js";
 
-export function open(path: string) {
+export function open(path: string): Database {
   return new Database(lib.open(path));
 }
 
@@ -19,9 +19,16 @@ class Database {
     lib.close(this.#ptr);
     db_gc.unregister(this);
   }
-  connect() {
+  connect(): Connection {
     return new Connection(this, lib.connect(this.#ptr));
   }
+}
+
+// TODO: this needs proper typings.
+interface PreparedStatement {
+  close(): void;
+  query<T = any>(...params: any[]): T[];
+  stream(): Generator<any>;
 }
 
 class Connection {
@@ -34,17 +41,20 @@ class Connection {
     cc_gc.register(this, ptr, this);
   }
 
-  query(sql: string) {
+  query<T = any>(sql: string): T[] {
     return lib.query(this.#ptr, sql);
   }
-  stream(sql: string) {
+
+  stream(sql: string): Generator<any> {
     return lib.stream(this.#ptr, sql);
   }
-  close() {
+
+  close(): void {
     lib.disconnect(this.#ptr);
     cc_gc.unregister(this);
   }
-  prepare(sql: string) {
+
+  prepare(sql: string): PreparedStatement {
     const p = lib.prepare(this.#ptr, sql);
     p.c = this;
     return p;

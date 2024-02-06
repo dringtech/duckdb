@@ -1,4 +1,4 @@
-import { prepare as plugPrepare } from "https://deno.land/x/plug@0.5.2/plug.ts";
+import { dlopen } from "jsr:@divy/plug@1.0.3";
 
 function ptr(v) {
   return Deno.UnsafePointer.of(v);
@@ -30,21 +30,15 @@ let options = { name: "duckdb" };
 if (devMode) {
   options.url = path;
 } else {
-  options.urls = {
+  options.url = "https://github.com/littledivy/duckdb/releases/download/0.1.0/";
+  options.suffixes = {
     darwin: {
-      aarch64:
-        `https://github.com/littledivy/duckdb/releases/download/0.1.0/libduckdb_aarch64.dylib`,
-      x86_64:
-        `https://github.com/littledivy/duckdb/releases/download/0.1.0/libduckdb.dylib`,
+      aarch64: `_aarch64`,
     },
-    windows:
-      `https://github.com/littledivy/duckdb/releases/download/0.1.0/duckdb.dll`,
-    linux:
-      `https://github.com/littledivy/duckdb/releases/download/0.1.0/libduckdb.so`,
   };
 }
 
-const { symbols: duck } = await plugPrepare(options, {
+const { symbols: duck } = await dlopen(options, {
   duckffi_free: { parameters: ["pointer"], result: "void" },
   duckffi_dfree: { parameters: ["pointer"], result: "void" },
   duckffi_close: { parameters: ["pointer"], result: "void" },

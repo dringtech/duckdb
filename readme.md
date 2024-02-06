@@ -11,6 +11,8 @@
 <details><summary>View source</summary>
 
 ```typescript
+import { open } from "jsr:@divy/duckdb@0.2";
+
 const db = open("/tmp/test.db");
 const connection = db.connect();
 
