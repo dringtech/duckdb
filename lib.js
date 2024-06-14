@@ -12,30 +12,25 @@ function getCString(v) {
   return view.getCString();
 }
 
-const name = "duckdb";
 const utf8e = new TextEncoder();
 const GeneratorFunction = (function* () {}).constructor;
 
-const path = {
-  linux() {
-    return new URL(`./bin/libduckdb.so`, import.meta.url);
-  },
-  darwin() {
-    return new URL(`./bin/libduckdb.dylib`, import.meta.url);
-  },
-}[Deno.build.os]().pathname;
-
-const devMode = Deno.env.get("DENO_DUCKDB_DEV");
-let options = { name: "duckdb" };
-if (devMode) {
-  options.url = path;
-} else {
-  options.url = "https://github.com/littledivy/duckdb/releases/download/0.1.0/";
-  options.suffixes = {
+const options = {
+  name: "duckdb",
+  url: "https://github.com/littledivy/duckdb/releases/download/0.1.0/",
+  suffixes: {
     darwin: {
       aarch64: `_aarch64`,
-    },
-  };
+    }
+  }
+};
+
+
+const devMode = Deno.env.get("DENO_DUCKDB_DEV");
+if (devMode) {
+  console.info("Running DuckDB bindings in DEV mode");
+  options.url = new URL(import.meta.resolve("./bin/")).pathname;
+  options.cache = 'reloadAll';
 }
 
 const { symbols: duck } = await dlopen(options, {
