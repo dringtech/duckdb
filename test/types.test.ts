@@ -1,11 +1,5 @@
-import {
-  describe,
-  it,
-} from "std/testing/bdd.ts";
-import {
-  assertEquals,
-  assertThrows,
-} from "std/assert/mod.ts";
+import { describe, it } from "std/testing/bdd.ts";
+import { assertEquals, assertThrows } from "std/assert/mod.ts";
 
 import { open } from "../mod.ts";
 
@@ -66,47 +60,48 @@ describe("Date Type", () => {
   });
 
   it("should support epoch date", () => {
-    const res = runSQL(`SELECT 'epoch'::DATE AS date;`)
+    const res = runSQL(`SELECT 'epoch'::DATE AS date;`);
     assertEquals(res[0].date, Date.parse("1970-01-01"));
-  })
+  });
 });
 
-describe('Numeric Types', () => {
-  describe('Integer Types', () => {
-    it('should support TINYINT', () => {
+describe("Numeric Types", () => {
+  describe("Integer Types", () => {
+    it("should support TINYINT", () => {
       const res = runSQL(`SELECT 10::TINYINT AS TINYINT;`);
       assertEquals(res[0].TINYINT, 10);
-    })
-    it('should overflow TINYINT', () => {
+    });
+    it("should overflow TINYINT", () => {
       const test = () => runSQL(`SELECT 1000::TINYINT AS TINYINT;`);
-      assertThrows(test, Error, 'Conversion Error');
-    })
-    
-    it('should support SMALLINT', () => {
+      assertThrows(test, Error, "Conversion Error");
+    });
+
+    it("should support SMALLINT", () => {
       const res = runSQL(`SELECT 10000::SMALLINT AS SMALLINT;`);
       assertEquals(res[0].SMALLINT, 10000);
-    })
-    it('should overflow SMALLINT', () => {
+    });
+    it("should overflow SMALLINT", () => {
       const test = () => runSQL(`SELECT 100000::SMALLINT AS SMALLINT;`);
-      assertThrows(test, Error, 'Conversion Error');
-    })
+      assertThrows(test, Error, "Conversion Error");
+    });
 
-    it('should support INTEGER', () => {
+    it("should support INTEGER", () => {
       const res = runSQL(`SELECT 1000000000::INTEGER AS INTEGER;`);
       assertEquals(res[0].INTEGER, 1000000000);
-    })
-    it('should overflow INTEGER', () => {
+    });
+    it("should overflow INTEGER", () => {
       const test = () => runSQL(`SELECT 100000000000000::INTEGER AS INTEGER;`);
-      assertThrows(test, Error, 'Conversion Error');
-    })
+      assertThrows(test, Error, "Conversion Error");
+    });
 
-    it('should support BIGINT', () => {
+    it("should support BIGINT", () => {
       const res = runSQL(`SELECT 100000000000000::BIGINT AS BIGINT;`);
       assertEquals(res[0].BIGINT, 100000000000000n);
-    })
-    it('should overflow BIGINT', () => {
-      const test = () => runSQL(`SELECT 10000000000000000000::BIGINT AS BIGINT;`);
-      assertThrows(test, Error, 'Conversion Error');
-    })
-  })
-})
+    });
+    it("should overflow BIGINT", () => {
+      const test = () =>
+        runSQL(`SELECT 10000000000000000000::BIGINT AS BIGINT;`);
+      assertThrows(test, Error, "Conversion Error");
+    });
+  });
+});

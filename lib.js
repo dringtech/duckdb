@@ -21,16 +21,15 @@ const options = {
   suffixes: {
     darwin: {
       aarch64: `_aarch64`,
-    }
-  }
+    },
+  },
 };
-
 
 const devMode = Deno.env.get("DENO_DUCKDB_DEV");
 if (devMode) {
   console.info("Running DuckDB bindings in DEV mode");
   options.url = new URL(import.meta.resolve("./bin/")).pathname;
-  options.cache = 'reloadAll';
+  options.cache = "reloadAll";
 }
 
 const { symbols: duck } = await dlopen(options, {
