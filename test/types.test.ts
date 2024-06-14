@@ -1,11 +1,11 @@
 import {
   describe,
   it,
-} from "https://deno.land/std@0.205.0/testing/bdd.ts";
+} from "std/testing/bdd.ts";
 import {
   assertEquals,
   assertThrows,
-} from "https://deno.land/std@0.205.0/assert/mod.ts";
+} from "std/assert/mod.ts";
 
 import { open } from "../mod.ts";
 
